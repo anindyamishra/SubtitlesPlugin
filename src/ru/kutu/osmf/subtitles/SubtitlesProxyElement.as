@@ -1,7 +1,6 @@
 package ru.kutu.osmf.subtitles {
 	
-	import by.blooddy.crypto.serialization.JSON;
-	
+
 	import org.osmf.elements.ProxyElement;
 	import org.osmf.events.LoadEvent;
 	import org.osmf.events.MediaElementEvent;
@@ -43,7 +42,7 @@ package ru.kutu.osmf.subtitles {
 						logger.info("Start decoding subtitles settings");
 					}
 					try {
-						subtitles = JSON.decode(subtitlesSource);
+						subtitles = JSON.parse(subtitlesSource);
 						CONFIG::LOGGING {
 							logger.info("Finish decoding subtitles settings");
 						}
@@ -60,12 +59,13 @@ package ru.kutu.osmf.subtitles {
 					}
 					if (sources.length) {
 						subtitlesTrait = new SubtitlesTrait(sources, media);
-						mediaLoadTrait = media.getTrait(MediaTraitType.LOAD) as LoadTrait;
+                        /*mediaLoadTrait = media.getTrait(MediaTraitType.LOAD) as LoadTrait;
 						if (mediaLoadTrait) {
 							mediaLoadTrait.addEventListener(LoadEvent.LOAD_STATE_CHANGE, onMediaLoadStateChange);
 						} else {
-							media.addEventListener(MediaElementEvent.TRAIT_ADD, onTraitAdd);
-						}
+                            media.addEventListener(MediaElementEvent.TRAIT_ADD, onTraitAdd);
+						}*/
+                        media.addEventListener(MediaElementEvent.TRAIT_ADD, onTraitAdd);
 						media.addEventListener(MediaElementEvent.TRAIT_REMOVE, onTraitRemove);
 						checkReady();
 					}
